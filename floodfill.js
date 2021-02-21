@@ -133,9 +133,14 @@ var floodfill = (function() {
 		var height = image.height;
 		
 		if(width>0 && height>0) {
-			fillUint8ClampedArray(data,x,y,color,tolerance,width,height);
-			ctx.putImageData(image,left,top);
+			const hasCanvasChanged = fillUint8ClampedArray(data,x,y,color,tolerance,width,height);
+			if (hasCanvasChanged) {
+				ctx.putImageData(image,left,top);
+			}
+			return hasCanvasChanged;
 		}
+
+		return false;
 	};
 
 	if (typeof CanvasRenderingContext2D != 'undefined') {
